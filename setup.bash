@@ -56,8 +56,8 @@ read ans
 	$COL_GREEN
 The CoroBot Cubieez setup tool will begin the configuration process"
 echo $COL_CYAN"Running Software Updates and Upgrades"
-$COL_WHITE
-sudo apt-get udpate && sudo apt-get upgrade -y 
+echo $COL_WHITE
+sudo apt-get update && sudo apt-get upgrade -y 
 
 echo $COL_CYAN "Creating a Downlaods Directory"
 $COL_WHITE
@@ -93,16 +93,56 @@ cd ~/
 clear
 
 echo $COL_CYAN "Installing Python related tools and dependencies"
-$COL_WHITE
+echo $COL_WHITE
 sudo apt-get install python3 python3-pyside python3-all-dev python3-zmq libzmq-dev python3-dev libusb-1.0-0-dev libudev-dev python3-dev -y
 clear
 echo $COL_CYAN "Getting PIP; the Python install manager"
-$COL_WHITE
+echo $COL_WHITE
 cd ~/Downloads
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python3 get-pip.py
 sudo pip3 install numpy virtualenv virtualenvwrapper pyzmq cython
 sudo pip3 install hidapi
+
 echo $COL_CYAN "Installing OpenCV 3.0.0"
-$COL_WHITE
+echo $COL_WHITE
+sudo apt-get install cmake libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libatlas-base-dev gfortran -y
+
+cd ~/
+git clone https://github.com/Itseez/opencv.git --depth 2
+cd opencv
+git checkout 3.0.0
+cd ~/
+git clone https://github.com/Itseez/opencv_contrib.git --depth2
+cd opencv_contrib
+git checkout 3.0.0
+cd ~/opencv
+mkdir build
+cd build
+
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D INSTALL_C_EXAMPLES=ON \
+      -D INSTALL_PYTHON_EXAMPLES=ON \
+      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+      -D BUILD_EXAMPLES=ON ..
+make -j4
+sudo make install
+sudo ldconfig
+
+echo $COL_CYAN "Verifying OpenCV is in Python3 Path"
+echo $COL_RED 
+ls -l /usr/local/lib/python3.2/site-packages
+sleep 5
+
+echo $COL_CYAN "Installing Developer Tools"
+echo $COL_WHITE
+sudo apt-get intstall emacs vim nmap screen
+
+echo $COL_CYAN "Getting ROS Indigo for ARM"
+echo $COL_WHITE
+sudo update-locale LANG=C LANGUAGE=C LC_ALL=C LC_MESSAGES=POSIX
+
+
+
 
