@@ -151,7 +151,7 @@ sudo apt-get install ros-indigo-ros-base
 
 sudo apt-get install python-rosdep
 sudo rosdep init
-rosdep init
+rosdep update
 echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 
