@@ -157,3 +157,14 @@ source ~/.bashrc
 
 sudo apt-get install python-rosinstall
 
+echo "Getting CoroBot ROS Metapackage"
+cd ~/
+git clone https://github.com/CoroBot/CoroBot_ROS
+cd CoroBot_ROS/src
+catkin_init_workspace
+cd ..
+catkin_make
+
+echo "Adding CoroBot ROS Stack to Sources"
+echo "source ~/CoroBot_ROS/devel/setup.bash" >> ~/.bashrc
+
